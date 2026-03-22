@@ -13,6 +13,7 @@ openai
 mediapipe
 opencv-python-headless
 numpy
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch
 torchvision
 timm
@@ -30,3 +31,4 @@ passlib[bcrypt]
 httpx
 structlog
 aiosqlite
+
