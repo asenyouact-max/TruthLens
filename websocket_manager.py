@@ -8,7 +8,7 @@ import numpy as np
 import json
 from fastapi import WebSocket
 from typing import Dict
-from core.redis_client import update_session_state, get_session_state
+from redis_client import update_session_state, get_session_state
 
 
 class WebSocketManager:

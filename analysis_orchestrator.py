@@ -8,21 +8,21 @@ from typing import Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ai_engine.full_frame_detector import FullFrameAIDetector as DeepfakeDetector
-from ai_engine.facial_analyzer import FacialAnalyzer
-from ai_engine.pose_analyzer import PoseAnalyzer
-from ai_engine.voice_analyzer import VoiceAnalyzer
-from ai_engine.nlp_analyzer import NLPAnalyzer
-from ai_engine.claude_reasoner import ClaudeReasoner
-from ai_engine.multi_brain_reasoner import MultiBrainReasoner
-from ai_engine.multi_brain_reasoner import MultiBrainReasoner
-from core.config import settings
-from services.video_processor import VideoProcessor
-from models.schemas import (
+from full_frame_detector import FullFrameAIDetector as DeepfakeDetector
+from facial_analyzer import FacialAnalyzer
+from pose_analyzer import PoseAnalyzer
+from voice_analyzer import VoiceAnalyzer
+from nlp_analyzer import NLPAnalyzer
+from claude_reasoner import ClaudeReasoner
+from multi_brain_reasoner import MultiBrainReasoner
+from multi_brain_reasoner import MultiBrainReasoner
+from config import settings
+from video_processor import VideoProcessor
+import schemas import (
     AnalysisResult, DeepfakeBreakdown, SignalBreakdown
 )
-from core.config import settings
-from core.redis_client import set_session_state
+from config import settings
+from redis_client import set_session_state
 
 
 class AnalysisOrchestrator:

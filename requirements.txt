@@ -9,13 +9,12 @@ sqlalchemy[asyncio]
 alembic
 redis[asyncio]
 anthropic
-openai
+openai-whisper
 mediapipe
 opencv-python-headless
-numpy
---extra-index-url https://download.pytorch.org/whl/cpu
-torch
-torchvision
+numpy<2.0
+torch --index-url https://download.pytorch.org/whl/cpu
+torchvision --index-url https://download.pytorch.org/whl/cpu
 timm
 onnxruntime
 opensmile
@@ -30,5 +29,4 @@ python-jose[cryptography]
 passlib[bcrypt]
 httpx
 structlog
-aiosqlite
-
+openai

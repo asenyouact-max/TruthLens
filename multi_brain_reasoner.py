@@ -23,7 +23,7 @@ import anthropic
 from openai import AsyncOpenAI
 from dataclasses import dataclass, field
 from typing import List, Optional, Any
-from core.config import settings
+from config import settings
 
 
 @dataclass

@@ -8,7 +8,7 @@ import os
 import tempfile
 from typing import Tuple, List
 import numpy as np
-from core.config import settings
+from config import settings
 
 
 class VideoProcessor:

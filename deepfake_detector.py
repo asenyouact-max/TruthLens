@@ -12,7 +12,7 @@ import numpy as np
 import cv2
 from dataclasses import dataclass
 from typing import List, Optional
-from models.schemas import DeepfakeBreakdown
+from schemas import DeepfakeBreakdown
 
 
 @dataclass

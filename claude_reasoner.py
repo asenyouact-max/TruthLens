@@ -10,7 +10,7 @@ import json
 import anthropic
 from dataclasses import dataclass
 from typing import List, Optional, Any
-from core.config import settings
+from config import settings
 
 
 @dataclass
