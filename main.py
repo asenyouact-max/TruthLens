@@ -1,57 +1,44 @@
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from fastapi import FastAPI, UploadFile, File, WebSocket, WebSocketDisconnect, Depends, HTTPException
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
-import asyncio
-import json
 
-import analysis, sessions, health
-from config import settings
-from database import init_db
-from redis_client import init_redis
+from analysis import router as analysis_router
+from health import router as health_router
+from sessions import router as sessions_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
-    await init_redis()
     yield
 
 
 app = FastAPI(
     title="TruthLens API",
-    description="AI-powered lie detection + deepfake detection pipeline",
     version="1.0.0",
     lifespan=lifespan,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(health.router, prefix="/health", tags=["health"])
-app.include_router(analysis.router, prefix="/api/v1/analysis", tags=["analysis"])
-app.include_router(sessions.router, prefix="/api/v1/sessions", tags=["sessions"])
+app.include_router(health_router, prefix="/health", tags=["health"])
+app.include_router(analysis_router, prefix="/api/v1/analysis", tags=["analysis"])
+app.include_router(sessions_router, prefix="/api/v1/sessions", tags=["sessions"])
 
 
-@app.websocket("/ws/live/{session_id}")
-async def websocket_live_analysis(websocket: WebSocket, session_id: str):
-    """Real-time analysis via WebSocket — receives video frames + audio chunks."""
-    from websocket_manager import ws_manager
-    await ws_manager.connect(websocket, session_id)
-    try:
-        while True:
-            data = await websocket.receive_bytes()
-            await ws_manager.process_chunk(session_id, data, websocket)
-    except WebSocketDisconnect:
-        await ws_manager.disconnect(session_id)
+@app.get("/")
+async def root():
+    return {"message": "TruthLens API is live!", "docs": "/docs"}
 
 
 if __name__ == "__main__":
