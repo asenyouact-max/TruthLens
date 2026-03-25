@@ -2,18 +2,14 @@ import os
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "")
+raw_url = os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./test.db")
 
-# Railway gives postgres:// but SQLAlchemy needs postgresql+asyncpg://
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
-elif DATABASE_URL.startswith("postgresql://"):
-    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+if raw_url.startswith("postgres://"):
+    raw_url = raw_url.replace("postgres://", "postgresql+asyncpg://", 1)
+elif raw_url.startswith("postgresql://"):
+    raw_url = raw_url.replace("postgresql://", "postgresql+asyncpg://", 1)
 
-if not DATABASE_URL:
-    DATABASE_URL = "sqlite+aiosqlite:///./test.db"
-
-engine = create_async_engine(DATABASE_URL, echo=False)
+engine = create_async_engine(raw_url, echo=False)
 AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 
 class Base(DeclarativeBase):
@@ -28,6 +24,9 @@ async def get_db() -> AsyncSession:
         yield session
 ```
 
-Also add `aiosqlite` to `requirements.txt` — add this line:
+---
+
+**Fix 2 — `requirements.txt`** → just add these 2 lines at the bottom:
 ```
+asyncpg==0.29.0
 aiosqlite==0.20.0
