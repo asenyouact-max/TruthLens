@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import DeclarativeBase
 
 # Read directly from environment - bypass config
-raw_url = os.environ.get("DATABASE_URL") or os.environ.get("RAILWAY_POSTGRESQL_URL") or ""
-
+raw_url = os.environ.get("DATABASE_URL") or os.environ.get("RAILWAY_POSTGRESQL_URL") or os.environ.get("POSTGRES_URL") or ""
+print(f"DEBUG DATABASE_URL starts with: {raw_url[:20] if raw_url else 'EMPTY'}")
 if not raw_url:
     raise RuntimeError("DATABASE_URL environment variable is not set!")
 
