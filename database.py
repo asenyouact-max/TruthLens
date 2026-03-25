@@ -22,11 +22,3 @@ async def init_db():
 async def get_db() -> AsyncSession:
     async with AsyncSessionLocal() as session:
         yield session
-```
-
----
-
-**Fix 2 — `requirements.txt`** → just add these 2 lines at the bottom:
-```
-asyncpg==0.29.0
-aiosqlite==0.20.0
