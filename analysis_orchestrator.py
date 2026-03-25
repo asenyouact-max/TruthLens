@@ -18,7 +18,7 @@ from multi_brain_reasoner import MultiBrainReasoner
 from multi_brain_reasoner import MultiBrainReasoner
 from config import settings
 from video_processor import VideoProcessor
-import schemas import (
+from schemas import (
     AnalysisResult, DeepfakeBreakdown, SignalBreakdown
 )
 from config import settings
